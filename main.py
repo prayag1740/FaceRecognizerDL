@@ -6,8 +6,8 @@ from sqs import SQS
 
 def main():
 
-    session = boto3.Session()
-    sts_client = session.client('sts')
+    session = boto3.Session(region_name='us-east-1')
+    sts_client = session.client('sts', region_name='us-east-1')
 
     role_session_name = str(uuid.uuid4())[:10]
     
