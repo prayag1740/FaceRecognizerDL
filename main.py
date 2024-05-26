@@ -1,12 +1,24 @@
 import os
-import boto3
+import boto3, uuid
 from face_recognition import face_match
 from s3 import S3
 from sqs import SQS
 
 def main():
-    sqs = SQS()
-    s3 = S3()
+
+    session = boto3.Session()
+    sts_client = session.client('sts')
+
+    role_session_name = str(uuid.uuid4())[:10]
+    
+    assumed_role = sts_client.assume_role(
+        RoleArn='arn:aws:iam::637423519415:role/AmazonS3SqsAccessV2',
+        RoleSessionName=role_session_name
+    )
+
+    credentials = assumed_role['Credentials']
+    sqs = SQS(credentials)
+    s3 = S3(credentials)
     while True:
         sqs_message = sqs.receive_request()
         if not sqs_message:
