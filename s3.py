@@ -4,10 +4,10 @@ import boto3
 
 class S3:
 
-    def __init__(self, credentials):
-        aws_access_key_id = credentials['AccessKeyId']
-        aws_secret_access_key = credentials['SecretAccessKey']
-        session_token = credentials['SessionToken']
+    def __init__(self):
+        aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+        aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+        session_token = os.getenv('AWS_SESSION_TOKEN')
         self.s3 = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, region_name='us-east-1', aws_session_token=session_token)
 
     def download_file(self, bucket_name, key, path):

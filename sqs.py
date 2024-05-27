@@ -6,10 +6,10 @@ push_sqs_url = 'https://sqs.us-east-1.amazonaws.com/637423519415/1227975517-resp
 
 class SQS:
     
-    def __init__(self, credentials):
-        aws_access_key_id = credentials['AccessKeyId']
-        aws_secret_access_key = credentials['SecretAccessKey']
-        session_token = credentials['SessionToken']
+    def __init__(self):
+        aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+        aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+        session_token = os.getenv('AWS_SESSION_TOKEN')
         self.sqs = boto3.client('sqs', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, region_name='us-east-1', aws_session_token=session_token)
 
     def send_request(self, request_id, response):

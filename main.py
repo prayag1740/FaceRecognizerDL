@@ -6,19 +6,8 @@ from sqs import SQS
 
 def main():
 
-    session = boto3.Session(region_name='us-east-1')
-    sts_client = session.client('sts', region_name='us-east-1')
-
-    role_session_name = str(uuid.uuid4())[:10]
-    
-    assumed_role = sts_client.assume_role(
-        RoleArn='arn:aws:iam::637423519415:role/AmazonS3SqsAccessV2',
-        RoleSessionName=role_session_name
-    )
-
-    credentials = assumed_role['Credentials']
-    sqs = SQS(credentials)
-    s3 = S3(credentials)
+    sqs = SQS()
+    s3 = S3()
     while True:
         sqs_message = sqs.receive_request()
         if not sqs_message:
